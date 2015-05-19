@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/uikit/2.11.0/css/uikit.almost-flat.min.css" rel="stylesheet">
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/uikit/2.11.0/js/uikit.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script>
+        var socket = io();
+	var c1 = 0;
+	var c2 = 0;
+	var c3 = 0;
+	var c4 = 0;
+
+	$("button").click(function() {
+          console.log('clicked');
+	});
+
+	socket.on('msg', function(msg){
+	    c1 = msg[0];
+	    c2 = msg[1];
+	    c3 = msg[2];
+	    c4 = msg[3];
+            $("html").css("background-color","rgb("+ c1 + "," +c2 + "," + c3 + ")");
+            
+	});
+
+
+
+	$(function() {
+            $(".change-color").on("click", function() {
+                c1 = Math.round( Math.random()*255 );
+                c2 = Math.round( Math.random()*255 );
+                c3 = Math.round( Math.random()*255 );
+                console.log("button push");
+        	socket.emit('msg', [c1, c2, c3]);
+            });
+	});
+    </script>
+    <style>
+        .container {
+	    margin: 20px;
+	}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <div class="uk-grid">
+            <div class="uk-width-1-1">
+                <button class="uk-button uk-button-success change-color" type="button">Change Color</button>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
